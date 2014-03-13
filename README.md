@@ -16,7 +16,6 @@ I am almose sure that this gem will not work outside an Rails project. Sorry Sin
 In your devise resource model (aka mapping), usually `User` add:
 
     include OmniAuth::MultiProvider::OmniAuthenticable
-    add_omniauth_providers :facebook, :guests
 
 Don't forget to configure devise to use Facebook (or any other provider):
 
@@ -28,15 +27,20 @@ In your `routes.rb`
 
 Create a migration to add the `Authentication` model with:
 
+    rails g migration create_authentications
+
+The change method should contain something like:
+
     create_table :authentications do |t|
       t.references :{devise_mapping_name}
-      t.string :uid,              :null => false
-      t.string :provider,         :null => false
+      t.string :uid,              null: false
+      t.string :provider,         null: false
       t.string :access_token
       t.string :permissions
-
       t.timestamps
     end
+    
+    add_index :authentications, [:provider, :uid], unique: true
 
 **devise_mapping_name** is probably `user`
 

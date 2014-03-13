@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency('devise', '~> 3.2')
   s.add_runtime_dependency('omniauth-oauth2', '~> 1.1')
+  s.add_runtime_dependency('hashugar', '~> 0.0.6')
 end

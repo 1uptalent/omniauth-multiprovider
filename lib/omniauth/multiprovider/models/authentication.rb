@@ -1,3 +1,5 @@
+require 'hashugar'
+
 class Authentication < ActiveRecord::Base
   belongs_to OmniAuth::MultiProvider::resource_mapping
   validates :provider, :uid, presence: true

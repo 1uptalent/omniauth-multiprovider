@@ -19,26 +19,31 @@ module OmniAuth
             }
           }
           provider_class = "OmniAuth::Provider::#{params[:provider].camelize}".constantize
-          resource = provider_class.find_from_oauth(omniauth_data)
+          resource = provider_class.authenticate_from_oauth(params[:provider], omniauth_data)
         end
         resource
       end
 
       included do
+        include MultiProvider::EmailMockups
+
         has_many MultiProvider::authentication_relationship_name, dependent: :destroy, inverse_of: MultiProvider::resource_mapping, autosave: true, class_name: MultiProvider::authentication_klass.name do
           def [](provider)
             find_by(provider: provider)
           end
         end
 
-      end
-
-      module ClassMethods
-        def add_omniauth_providers(*providers)
-          providers.each do |provider_name|
-            "OmniAuth::Provider::#{provider_name.to_s.camelize}".constantize.init
+        omniauth_providers.each do |provider_name|
+          puts "=> provider_name"
+          begin
+            klass = "OmniAuth::Provider::#{provider_name.to_s.camelize}".constantize
+          rescue NameError
+            puts "this #{provider_name} has not an specialized class"
+            klass = OmniAuth::Provider::Generic
           end
+          klass.init(provider_name)
         end
+
       end
     end
   end
