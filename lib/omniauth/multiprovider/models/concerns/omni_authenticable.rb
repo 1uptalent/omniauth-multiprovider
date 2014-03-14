@@ -34,11 +34,9 @@ module OmniAuth
         end
 
         omniauth_providers.each do |provider_name|
-          puts "=> provider_name"
           begin
             klass = "OmniAuth::Provider::#{provider_name.to_s.camelize}".constantize
           rescue NameError
-            puts "this #{provider_name} has not an specialized class"
             klass = OmniAuth::Provider::Generic
           end
           klass.init(provider_name)
