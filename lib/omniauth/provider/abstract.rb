@@ -15,9 +15,9 @@ module OmniAuth
         if authentication
           if signed_in_resource
             if authentication.resource == signed_in_resource
-              raise 'already connected'
+              raise RuntimeError.new 'already connected'
             else
-              raise 'already connected with other user'
+              raise RuntimeError.new 'already connected with other user'
             end
           end
           authentication.resource
