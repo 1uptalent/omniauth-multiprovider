@@ -15,9 +15,9 @@ module OmniAuth
         if authentication
           if signed_in_resource
             if authentication.resource == signed_in_resource
-              raise RuntimeError.new 'already connected'
+              raise MultiProvider::Error.new 'already connected'
             else
-              raise RuntimeError.new 'already connected with other user'
+              raise MultiProvider::Error.new 'already connected with other user'
             end
           end
           authentication.resource
@@ -27,7 +27,7 @@ module OmniAuth
           end
           email = auth.info[:email]
 
-          raise 'email_already_registered' if MultiProvider::resource_klass.find_by(email: email)
+          raise MultiProvider::Error.new 'email_already_registered' if MultiProvider::resource_klass.find_by(email: email)
 
           resource = signed_in_resource || MultiProvider::resource_klass.create(
                                          email: email,
@@ -53,7 +53,7 @@ module OmniAuth
           end
           email = auth.info[:email]
 
-          raise 'email_already_registered' if MultiProvider::resource_klass.find_by(email: email)
+          raise MultiProvider::Error.new 'email_already_registered' if MultiProvider::resource_klass.find_by(email: email)
 
           resource = MultiProvider::resource_klass.create(
                                          email: email,

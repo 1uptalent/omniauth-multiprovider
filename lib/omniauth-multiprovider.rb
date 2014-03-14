@@ -6,6 +6,7 @@ module OmniAuth
     autoload :CallbacksController,        'omniauth/multiprovider/controllers/callbacks_controller'
     autoload :OmniAuthenticable,          'omniauth/multiprovider/models/concerns/omni_authenticable'
     autoload :EmailMockups,               'omniauth/multiprovider/models/email_mockups'
+    autoload :Error,                      'omniauth/multiprovider/error'
   end
   module Provider
     autoload :Abstract,                   'omniauth/provider/abstract'
