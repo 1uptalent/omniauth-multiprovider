@@ -8,11 +8,12 @@ Gem::Specification.new do |s|
   s.description = "Provides a simple approach to support many oauth providers to devise"
   s.authors     = ["German Del Zotto"]
   s.email       = 'germ@ndz.com.ar'
-  s.files       = ["lib/omniauth-multiprovider.rb"]
-  s.homepage    = 'http://rubygems.org/gems/omniauth-multiprovider'
+  s.files       = `git ls-files`.split("\n")
+  s.require_paths = ['lib']
+  s.homepage    = 'https://github.com/1uptalent/omniauth-multiprovider'
   s.license     = 'MIT'
 
-  s.add_runtime_dependency('devise', '~> 3.2')
-  s.add_runtime_dependency('omniauth-oauth2', '~> 1.1')
-  s.add_runtime_dependency('hashugar', '~> 0.0.6')
+  s.add_dependency('devise', '~> 3.2')
+  s.add_dependency('omniauth-oauth2', '~> 1.1')
+  s.add_dependency('hashugar', '~> 0.0.6')
 end
