@@ -12,6 +12,8 @@ module OmniAuth
         access_token = auth.credentials.token
         authentication = MultiProvider.authentication_klass.find_by(provider: provider_name, uid: auth.uid)
 
+        resource = nil
+
         if authentication
           if signed_in_resource
             if authentication.resource == signed_in_resource
@@ -20,8 +22,9 @@ module OmniAuth
               raise MultiProvider::Error.new 'already connected with other user'
             end
           end
-          authentication.resource
-        else
+          resource = authentication.resource
+        end
+        unless resource
           if auth.info[:email].blank?
             auth.info[:email] = MultiProvider::resource_klass.mock_email(provider_name, auth.uid)
           end
@@ -29,15 +32,15 @@ module OmniAuth
 
           raise MultiProvider::Error.new 'email_already_registered' if MultiProvider::resource_klass.find_by(email: email)
 
-          resource = signed_in_resource || MultiProvider::resource_klass.create(
+          resource = signed_in_resource || MultiProvider::resource_klass.new(
                                          email: email,
                                          password: Devise.friendly_token[0,20]
                                          )
 
           MultiProvider.authentication_klass.from(auth, resource)
 
-          resource
         end
+        resource
       end
 
       def self.authenticate_from_oauth(provider_name, omniauth_data)

@@ -9,6 +9,7 @@ class Authentication < ActiveRecord::Base
     authentication = self.find_or_create(auth)
     authentication.access_token = auth.credentials.token
     authentication.resource = resource
+    resource.save(validate: false)
     authentication.save
     authentication
   end
