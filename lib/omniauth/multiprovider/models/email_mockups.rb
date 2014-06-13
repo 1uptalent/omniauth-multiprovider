@@ -8,7 +8,7 @@ module OmniAuth
       end
 
       def mocked_email?
-        email.match /.*@from\-.*\.com$/
+        email.match(/.*@from\-.*\.com$/) != nil
       end
 
       def current_email
