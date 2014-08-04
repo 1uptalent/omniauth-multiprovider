@@ -15,5 +15,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency('devise', '~> 3.2')
   s.add_dependency('omniauth-oauth2', '~> 1.1')
-  s.add_dependency('hashugar', '~> 0.0.6')
+  s.add_dependency('hashugar', '~> 0.0', '>= 0.0.6')
 end
