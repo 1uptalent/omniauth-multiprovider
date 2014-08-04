@@ -8,7 +8,7 @@ module OmniAuth
       end
 
       def mocked_email?
-        read_attribute(:email).match(/.*@from\-.*\.example$/) != nil
+        mocked_email.to_s.match(/.*@from\-.*\.example$/) != nil
       end
 
       def mocked_email
@@ -16,7 +16,7 @@ module OmniAuth
       end
 
       def email
-        mocked_email? ? nil : read_attribute(:email)
+        mocked_email? ? nil : mocked_email
       end
 
       module ClassMethods
