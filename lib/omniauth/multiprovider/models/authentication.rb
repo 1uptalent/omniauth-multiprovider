@@ -1,7 +1,7 @@
 require 'hashugar'
 
 class Authentication < ActiveRecord::Base
-  belongs_to OmniAuth::MultiProvider::resource_mapping
+  belongs_to :resource, polymorphic: true
   validates :provider, :uid, presence: true
 
   def self.from(omniauth_data, resource)
@@ -22,14 +22,6 @@ class Authentication < ActiveRecord::Base
     normalized.info ||= {}
     normalized.info.delete(:description)
     normalized
-  end
-
-  def resource
-    send OmniAuth::MultiProvider::resource_mapping
-  end
-
-  def resource=(resource)
-    send("#{OmniAuth::MultiProvider::resource_mapping}=", resource)
   end
 
   private

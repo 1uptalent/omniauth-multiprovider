@@ -18,11 +18,15 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_dependency('devise', '~> 3.2')
+  s.add_dependency('activesupport', ">= 3.2.6", "< 5")
+  s.add_dependency('activerecord', ">= 3.2.6", "< 5")
   s.add_dependency('omniauth-oauth2', '~> 1.1')
   s.add_dependency('hashugar', '~> 0.0', '>= 0.0.6')
 
   s.add_development_dependency "bundler", "~> 1.7"
   s.add_development_dependency "rake", "~> 10.0"
 
-  s.add_development_dependency "rspec", "~> 2.6"
+  s.add_development_dependency "rspec", "~> 3.1"
+  s.add_development_dependency "rspec-rails", "~> 3.1"
+  s.add_development_dependency "sqlite3"
 end

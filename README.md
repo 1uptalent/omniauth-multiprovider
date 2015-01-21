@@ -48,7 +48,7 @@ Create a migration to add the `Authentication` model with:
 The change method should contain something like:
 
     create_table :authentications do |t|
-      t.references :{devise_mapping_name}
+      t.references :{devise_mapping_name}, polymorphic: true
       t.string :uid,              null: false
       t.string :provider,         null: false
       t.string :access_token

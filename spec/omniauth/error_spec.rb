@@ -2,12 +2,14 @@ require 'spec_helper'
 
 describe OmniAuth::MultiProvider::Error do
   it 'is a runtime error' do
-    begin
-      rescued = false
-      raise OmniAuth::MultiProvider::Error
-    rescue RuntimeError
-      rescued = true
-    end
-    rescued.should be true
+    expect { raise OmniAuth::MultiProvider::Error }.to raise_error RuntimeError
+  end
+end
+
+describe OmniAuth::MultiProvider::AlreadyBoundError do
+  it 'provides the bound resource' do
+    resource = double("resource")
+    error = OmniAuth::MultiProvider::AlreadyBoundError.new(resource)
+    expect(error.bound_to).to be resource
   end
 end

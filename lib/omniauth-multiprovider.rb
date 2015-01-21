@@ -1,4 +1,5 @@
 require 'omniauth/multiprovider'
+require 'omniauth/multiprovider/models/active_record'
 
 autoload :Authentication,             'omniauth/multiprovider/models/authentication'
 module OmniAuth
@@ -7,6 +8,7 @@ module OmniAuth
     autoload :OmniAuthenticable,          'omniauth/multiprovider/models/concerns/omni_authenticable'
     autoload :EmailMockups,               'omniauth/multiprovider/models/email_mockups'
     autoload :Error,                      'omniauth/multiprovider/error'
+    autoload :AlreadyBoundError,          'omniauth/multiprovider/error'
   end
   module Provider
     autoload :Abstract,                   'omniauth/provider/abstract'

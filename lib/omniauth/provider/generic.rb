@@ -2,11 +2,11 @@ module OmniAuth
   module Provider
     class Generic < Abstract
 
-      def self.init(provider_name)
-        klass = self
-        OmniAuth::MultiProvider::CallbacksController.add_callback(provider_name) do
+      def request_handler
+        Proc.new do
           auth = request.env['omniauth.auth']
-          resource = klass.find_from_oauth(provider_name, auth, send(OmniAuth::MultiProvider::current_resource))
+          provider_name = auth['provider_name']
+          resource = resource_class.find_from_oauth provider_name, auth, signed_in_resource
           if resource.persisted?
             sign_in_and_redirect resource, event: :authentication #this will throw if resource is not activated
             set_flash_message(:notice, :success, kind: provider_name.to_s.camelize) if is_navigational_format?
@@ -16,7 +16,6 @@ module OmniAuth
           end
         end
       end
-
     end
   end
 end
