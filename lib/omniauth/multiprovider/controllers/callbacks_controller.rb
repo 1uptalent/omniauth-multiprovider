@@ -18,7 +18,7 @@ module OmniAuth
             provider = provider_class.new(self)
             instance_variable_set memo_name, provider
           end
-          provider.handle_request self
+          provider.handle_request
         end
       end
 
