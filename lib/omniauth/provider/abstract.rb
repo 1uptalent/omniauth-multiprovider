@@ -1,6 +1,15 @@
 module OmniAuth
   module Provider
-    class Abstract
+    class Abstract < SimpleDelegator
+
+      def initialize(controller)
+        super
+        @controller = controller
+      end
+
+      def handle_request(controller)
+        raise "Should be defined by subclasses"
+      end
 
       def self.authenticate_from_oauth(provider_name, omniauth_data)
         auth = MultiProvider::authentication_klass.normalize(omniauth_data)
