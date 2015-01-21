@@ -25,7 +25,8 @@ module OmniAuth
       # Must return a Proc (or another object responding to call).
       # The returned object will be invoked with
       def already_bound_handler
-        Proc.new do |new_resource, signed_in_resource, omniauth_data|
+        lambda do |new_resource, signed_in_resource, omniauth_data|
+          return if new_resource == signed_in_resource
           raise MultiProvider::AlreadyBoundError.new new_resource
         end
       end

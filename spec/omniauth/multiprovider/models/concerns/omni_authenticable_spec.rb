@@ -33,10 +33,10 @@ describe OmniAuth::MultiProvider::OmniAuthenticable do
         end.to raise_error OmniAuth::MultiProvider::AlreadyBoundError
       end
 
-      it 'fails if the already bound to current user' do
+      it 'succeeds if already bound to current user' do
         expect do
           User.from_oauth omniauth_data, user
-        end.to raise_error OmniAuth::MultiProvider::Error
+        end.not_to raise_error
       end
     end
   end

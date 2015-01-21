@@ -22,7 +22,8 @@ module OmniAuth
             resource = authentication.try :resource
 
             if resource and signed_in_resource
-              _oamp.already_bound_handler.call resource, signed_in_resource
+              _oamp.already_bound_handler.call resource, signed_in_resource, auth
+              return signed_in_resource
             end
             unless resource
               if auth.info[:email].blank?
