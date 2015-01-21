@@ -1,3 +1,4 @@
+require 'active_record'
 require 'omniauth/multiprovider/config'
 
 module OmniAuth
