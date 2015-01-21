@@ -14,7 +14,6 @@ module OmniAuth
     autoload :Abstract,                   'omniauth/provider/abstract'
     autoload :Generic,                    'omniauth/provider/generic'
     autoload :Facebook,                   'omniauth/provider/facebook'
-    autoload :Guests,                     'omniauth/provider/guests'
   end
 end
 
