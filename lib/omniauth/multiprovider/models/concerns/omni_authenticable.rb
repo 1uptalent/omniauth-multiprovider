@@ -31,7 +31,7 @@ module OmniAuth
               end
               email = auth.info[:email]
 
-              raise MultiProvider::Error.new 'email_already_registered' if find_by(email: email)
+              raise OmniAuth::MultiProvider::EmailTakenError.new('email_already_registered') if find_by(email: email)
 
               resource = signed_in_resource || new(
                                              email: email,

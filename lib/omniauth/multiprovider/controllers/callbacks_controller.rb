@@ -18,7 +18,12 @@ module OmniAuth
             provider = provider_class.new(self)
             instance_variable_set memo_name, provider
           end
-          provider.handle_request
+          begin
+            provider.handle_request
+          rescue OmniAuth::MultiProvider::Error => e
+            set_flash_message :alert, e.message
+            redirect_to after_sign_in_path_for(resource_name)
+          end
         end
       end
 

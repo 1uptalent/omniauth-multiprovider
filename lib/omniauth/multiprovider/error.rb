@@ -10,5 +10,8 @@ module OmniAuth
 
       attr_reader :bound_to
     end
+
+    class EmailTakenError < Error
+    end
   end
 end
