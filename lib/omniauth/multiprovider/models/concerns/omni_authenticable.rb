@@ -13,7 +13,7 @@ module OmniAuth
             @_omniauth_multiprovider_config ||= OmniAuth::MultiProvider::Config.new
           end
 
-          def find_from_oauth(omniauth_data, signed_in_resource=nil)
+          def from_oauth(omniauth_data, signed_in_resource=nil)
             auth = _oamp.authentication_klass.normalize(omniauth_data)
             provider_name = auth.provider
             access_token = auth.credentials.token

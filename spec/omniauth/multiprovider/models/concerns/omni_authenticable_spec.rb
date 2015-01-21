@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OmniAuth::MultiProvider::OmniAuthenticable do
-  describe '#find_from_oauth' do
+  describe '#from_oauth' do
     context 'already authenticated' do
       let(:user) do
         u = User.new
@@ -22,20 +22,20 @@ describe OmniAuth::MultiProvider::OmniAuthenticable do
 
       it 'returns the existing user' do
         expected = user
-        actual = User.find_from_oauth omniauth_data
+        actual = User.from_oauth omniauth_data
         expect(expected).to eq actual
       end
 
       it 'fails if the current user is different' do
         another_user = User.new
         expect do
-          User.find_from_oauth omniauth_data, another_user
+          User.from_oauth omniauth_data, another_user
         end.to raise_error OmniAuth::MultiProvider::AlreadyBoundError
       end
 
       it 'fails if the already bound to current user' do
         expect do
-          User.find_from_oauth omniauth_data, user
+          User.from_oauth omniauth_data, user
         end.to raise_error OmniAuth::MultiProvider::Error
       end
     end
