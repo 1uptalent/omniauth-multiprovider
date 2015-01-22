@@ -60,9 +60,28 @@ The change method should contain something like:
 
 **devise_mapping_name** is probably `user`
 
+### Errors and handling
+
+There are 3 error scenarios:
+
+* The oauth authentication already exists and belongs to the current logged-in user (it's trying to reconnect)
+* The oauth authentication already exists and belongs to a different user (potential identity theft attemp)
+* The oauth-provided email is already in use
+
+The first error will be ignored by default.
+
+For the other two errors `OmniAuth::MultiProvider::CallbacksController` will set the `flash[:alert]` to the localized I18N keys:
+
+* common prefix: `devise.callbacks.user`
+  * `bound_to_other`
+  * `email_taken`
+
+
 ## Testing
 
-I am porting this gem from an existing project, the testing is currently embebed in the project. I will extract those test and cover this project.
+Run `rspec`.
+
+More tests are appreciated.
 
 ##Contributors
 

@@ -27,7 +27,7 @@ module OmniAuth
       def already_bound_handler
         lambda do |new_resource, signed_in_resource, omniauth_data|
           return if new_resource == signed_in_resource
-          raise MultiProvider::AlreadyBoundError.new new_resource
+          raise MultiProvider::AlreadyBoundError.new signed_in_resource, new_resource
         end
       end
     end

@@ -18,13 +18,26 @@ module OmniAuth
             provider = provider_class.new(self)
             instance_variable_set memo_name, provider
           end
-          begin
-            provider.handle_request
-          rescue OmniAuth::MultiProvider::Error => e
-            set_flash_message :alert, e.message
-            redirect_to after_sign_in_path_for(resource_name)
-          end
+          handle_request provider
         end
+      end
+
+      def handle_request(provider)
+          provider.handle_request
+      rescue OmniAuth::MultiProvider::Error => error
+        raise unless handle_provider_error(error)
+      rescue RuntimeError => error
+        raise unless handle_unexpected_error(error)
+      end
+
+      def handle_provider_error(error)
+        set_flash_message :alert, error.message
+        redirect_to after_sign_in_path_for(resource_name)
+        true
+      end
+
+      def handle_unexpected_error(error)
+        false # no explicit handling
       end
 
       # TODO: this looks like a good candidate for using method_missing

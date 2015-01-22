@@ -4,14 +4,26 @@ module OmniAuth
     end
 
     class AlreadyBoundError < Error
-      def initialize(bound_to)
+      def initialize(current, bound_to)
+        @current = current
         @bound_to = bound_to
       end
 
-      attr_reader :bound_to
+      def message
+        if @current == @bound_to
+          'bound_to_same'
+        else
+          'bound_to_other'
+        end
+      end
+
+      attr_reader :current, :bound_to
     end
 
     class EmailTakenError < Error
+      def message
+        'email_taken'
+      end
     end
   end
 end

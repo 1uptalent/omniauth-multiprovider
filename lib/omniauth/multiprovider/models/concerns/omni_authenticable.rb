@@ -31,12 +31,9 @@ module OmniAuth
               end
               email = auth.info[:email]
 
-              raise OmniAuth::MultiProvider::EmailTakenError.new('email_already_registered') if find_by(email: email)
+              raise OmniAuth::MultiProvider::EmailTakenError if find_by(email: email)
 
-              resource = signed_in_resource || new(
-                                             email: email,
-                                             password: Devise.friendly_token[0,20]
-                                             )
+              resource = signed_in_resource || new(email: email, password: Devise.friendly_token[0,20])
 
               _oamp.authentication_klass.from(auth, resource)
 
