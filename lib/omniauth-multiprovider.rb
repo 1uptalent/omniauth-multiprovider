@@ -9,6 +9,7 @@ module OmniAuth
     autoload :EmailMockups,               'omniauth/multiprovider/models/email_mockups'
     autoload :Error,                      'omniauth/multiprovider/error'
     autoload :AlreadyBoundError,          'omniauth/multiprovider/error'
+    autoload :EmailTakenError,          'omniauth/multiprovider/error'
   end
   module Provider
     autoload :Abstract,                   'omniauth/provider/abstract'
