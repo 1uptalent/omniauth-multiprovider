@@ -49,7 +49,7 @@ module OmniAuth
           end
 
           # Can be customized in each model
-          def create_from_oauth(attributes, signed_in_resource = nil, oauth_data)
+          def create_from_oauth(attributes, oauth_data)
             raise OmniAuth::MultiProvider::EmailTakenError if exists?(email: attributes[:email])
             create!(attributes)
           end
