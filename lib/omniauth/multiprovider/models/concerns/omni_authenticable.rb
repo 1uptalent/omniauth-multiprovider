@@ -6,7 +6,7 @@ module OmniAuth
       extend ::ActiveSupport::Concern
 
       included do
-        include MultiProvider::EmailMockups
+        include OmniAuth::MultiProvider::EmailMockups
 
         class << self
           def _oamp
@@ -28,10 +28,10 @@ module OmniAuth
             unless resource
               attributes = oauth_to_attributes auth
               if signed_in_resource
-                signed_in_resource.update_from_oauth attributes
+                signed_in_resource.update_from_oauth attributes, auth
                 resource = signed_in_resource
               else
-                resource = create_from_oauth attributes
+                resource = create_from_oauth attributes, auth
               end
               _oamp.authentication_klass.from(auth, resource)
             end
@@ -40,14 +40,16 @@ module OmniAuth
 
           # Can be customized in each model
           def oauth_to_attributes(oauth_data)
-            {
-              email: auth.info[:email] || mock_email(provider_name, auth.uid),
+            attrs = {
+              email: oauth_data.info[:email] || mock_email(oauth_data.provider, oauth_data.uid),
               password: Devise.friendly_token[0,20]
             }
+            attrs[:password_confirmation] = attrs[:password]
+            return attrs
           end
 
           # Can be customized in each model
-          def create_from_oauth(attributes, signed_in_resource = nil)
+          def create_from_oauth(attributes, signed_in_resource = nil, oauth_data)
             raise OmniAuth::MultiProvider::EmailTakenError if exists?(email: attributes[:email])
             create!(attributes)
           end
@@ -63,12 +65,12 @@ module OmniAuth
 
         # Handler for the case when a signed_in_resource exists and is being authenticated
         # Can be customized in each model
-        def update_from_oauth(new_attrs)
-          unless self.email.blank? || new_attrs[:email] == self.email
+        def update_from_oauth(new_attrs, oauth)
+          unless self.email.blank? || new_attrs[:email] == self.email
             # refusing to change existing email
             new_attrs.delete(:email)
             # but check if someone else is using it anyway
-            raise OmniAuth::MultiProvider::EmailTakenError if exists?(email: new_attrs[:email])
+            raise OmniAuth::MultiProvider::EmailTakenError if User.exists?(email: new_attrs[:email])
           end
           self.update!(new_attrs)
         end

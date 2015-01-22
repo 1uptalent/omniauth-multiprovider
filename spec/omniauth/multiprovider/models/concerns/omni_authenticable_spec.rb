@@ -40,4 +40,28 @@ describe OmniAuth::MultiProvider::OmniAuthenticable do
       end
     end
   end
+
+  describe '#oauth_to_attributes' do
+    it 'returns email, password and password_confirmation' do
+      oauth = {provider: 'foo', info: { email: 'some_email' } }.to_hashugar
+      attrs = User.oauth_to_attributes oauth
+      expect(attrs.keys).to match [:email, :password, :password_confirmation]
+    end
+
+    it 'returns a mock email when oauth data does not have it' do
+      oauth = {provider: 'foo', info: {} }.to_hashugar
+      email = User.oauth_to_attributes(oauth)[:email]
+      expect(email).to match /@from-foo\.example$/
+    end
+
+    it 'returns the oauth email if present' do
+      oauth = {provider: 'foo', info: {email: 'smith@example.com'} }.to_hashugar
+      email = User.oauth_to_attributes(oauth)[:email]
+      expect(email).to eq 'smith@example.com'
+    end
+  end
+
+  describe '#update_from_oauth' do
+
+  end
 end
