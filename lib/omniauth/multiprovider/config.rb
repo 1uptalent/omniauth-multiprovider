@@ -20,16 +20,6 @@ module OmniAuth
       def authentication_relationship_name
         :authentications
       end
-
-      # Invoked when an authentication exists but there is already a signed in resource.
-      # Must return a Proc (or another object responding to call).
-      # The returned object will be invoked with
-      def already_bound_handler
-        lambda do |new_resource, signed_in_resource, omniauth_data|
-          return if new_resource == signed_in_resource
-          raise MultiProvider::AlreadyBoundError.new signed_in_resource, new_resource
-        end
-      end
     end
   end
 end

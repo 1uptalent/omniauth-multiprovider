@@ -22,7 +22,7 @@ module OmniAuth
             resource = authentication.try :resource
 
             if resource and signed_in_resource
-              _oamp.already_bound_handler.call resource, signed_in_resource, auth
+              signed_in_resource.oauth_already_bound resource, auth
               return signed_in_resource
             end
             unless resource
@@ -40,6 +40,13 @@ module OmniAuth
             end
             resource
           end
+        end
+
+        # Handler for the case when there is already an Authentication
+        def oauth_already_bound(other, oauth_data)
+          return self if self == other # do nothing if its own authentication
+          # raise error if the oauth data is bound to another resource
+          raise MultiProvider::AlreadyBoundError.new signed_in_resource, new_resource
         end
 
         has_many _oamp.authentication_relationship_name,
