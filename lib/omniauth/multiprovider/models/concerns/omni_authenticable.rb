@@ -58,9 +58,13 @@ module OmniAuth
         # Handler for the case when there is already an Authentication
         # Can be customized in each model
         def oauth_already_bound(other, oauth_data)
-          return self if self == other # do nothing if its own authentication, potentially update
-          # raise error if the oauth data is bound to another resource
-          raise MultiProvider::AlreadyBoundError.new self, other
+          if self == other
+            # update
+            self.update_from_oauth self.class.oauth_to_attributes(oauth_data), oauth_data
+          else
+            # raise error if the oauth data is bound to another resource
+            raise MultiProvider::AlreadyBoundError.new self, other
+          end
         end
 
         # Handler for the case when a signed_in_resource exists and is being authenticated
