@@ -84,9 +84,9 @@ module OmniAuth
       def update_from_oauth(new_attrs, oauth)
         unless self.email.blank? || new_attrs[:email] == self.email
           # refusing to change existing email
-          new_attrs.delete(:email)
+          email = new_attrs.delete(:email)
           # but check if someone else is using it anyway
-          raise OmniAuth::MultiProvider::EmailTakenError if User.exists?(email: new_attrs[:email])
+          raise OmniAuth::MultiProvider::EmailTakenError if User.exists?(email: email)
         end
         self.update!(new_attrs)
       end
