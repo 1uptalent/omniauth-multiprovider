@@ -8,6 +8,7 @@ class Authentication < ActiveRecord::Base
     auth = normalize(omniauth_data)
     authentication = self.find_or_create(auth)
     authentication.access_token = auth.credentials.token
+    authentication.access_token_secret = auth.credentials.secret
     authentication.resource = resource
     resource.save(validate: false)
     authentication.save

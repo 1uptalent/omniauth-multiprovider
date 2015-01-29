@@ -52,6 +52,7 @@ The change method should contain something like:
       t.string :uid,              null: false
       t.string :provider,         null: false
       t.string :access_token
+      t.string :access_token_secret
       t.string :permissions
       t.timestamps
     end
